@@ -76,64 +76,6 @@ public class Assignment {
 		return res+1==a;
 	}
 	
-	//4. Write a java class called pizza with (Add detail as needed) : 
-	//i. At least 3 attributes :pizza type and unit price and points for collection.
-	//More attributes are welcome to have. 
-	//ii. Constructor is needed. Extra-credit for 0.5 point if you write more than 1 right constructor for this class
-	//Author: Ce Lan
-
-	public class pizza {
-		String type;
-		int unitPrice;
-		String pointsForCollection;
-			
-		public pizza() {
-			this.type="hawaii";
-			this.unitPrice=10;
-			this.pointsForCollection="401 dexter ave n";
-		}
-		public pizza(String type, int unitPrice, String address) {
-			this.type=type;
-			this.unitPrice=unitPrice;
-			this.pointsForCollection=address;
-		}
-		public static void main(String[] args) {
-			pizza b=new pizza();
-			System.out.println(b.type +  "\n"+ b.unitPrice+ "\n" + b.pointsForCollection + "\n");
-			pizza c=new pizza("greek", 12, "225 dexter ave n");
-			System.out.println(c.type +  "\n"+ c.unitPrice+ "\n" + c.pointsForCollection + "\n");
-		}
-
-	}
-
-	//5. Write a java class called customer (Add detail as needed) : 
-//  i. Attributes needed: customer name and what pizza customer has ordered. 
-//  ii. Think about what kind of data structure will be used to record the pizza name and numbers 
-//  for each kind of pizza.( Give me your thought, Extra credit for 1 point)
-//  iii. In main method , sum up how many the customer spend. 
-//Author: Ce Lan
-
-public class customer {
-	String name;
-	int hawaiiNumber;
-	int greekNumber;
-	
-	public customer(String name, int a, int b) {
-		this.name=name;
-		this.hawaiiNumber=a;
-		this.greekNumber=b;
-	}
-	
-	public static void main(String[] args) {
-		customer a=new customer("Cathy", 4, 8);
-		int res=0;
-		pizza hawaii=new pizza();
-		pizza greek=new pizza("greek", 12, "401 dexter avenue n");
-		res+=hawaii.unitPrice*a.hawaiiNumber;
-		res+=greek.unitPrice*a.greekNumber;
-		System.out.println("total spend: " + res);
-	}
-}
 	
 //	6. Write a Java program that generates an isosceles right angled triangle made of asterisks. 
 //	i. function should take input of one equal side as integer. Other than the edges the inner part of the triangle should be empty.
