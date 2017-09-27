@@ -24,7 +24,7 @@ public class Assignment {
 		else{
 			if (hours<41)
 				return 36*15.0+(hours-36)*15*1.5;
-			else
+			else  //not handling hours > 48!
 				return 36*15.0+5*15*1.5+(hours-41)*15*2.0;
 		}
 	}
