@@ -1,0 +1,113 @@
+package assignment;
+import java.lang.Math;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by lance1 on 24/09/2017.
+ */
+
+//    5. Create a calculator that can perform the following features. (Total Score 4)
+//    i. The calculator should be able to perform Addition, subtraction, multiplication, division. (Score 2)
+//    ii. Should be able to perform squareRoot, square, cube. (Score 1)
+//    iii. Should be able to convert ‘Fahrenheit-Celsius’ , ‘Feet-Inches’. (Score 1)
+//    Extra Credit(Score 2)
+//    The calculator should be able to solve a quadratic equation and return the solution as array.
+//    i. This function should take three arguments.
+//    ii. For example, if quadratic equation is Ax2 + Bx + C. The function should take A,B,C as arguments
+//    and return a solution as array.
+
+public class calculator {
+    int operand1;
+    int operand2;
+//    String operator;
+
+    private calculator(int a, int b){
+        this.operand1=a;
+        this.operand2=b;
+//        this.operator=c;
+    }
+    private calculator(int a){
+        this.operand1=a;
+//        this.operator=c;
+    }
+
+//    i. The calculator should be able to perform Addition, subtraction, multiplication, division. (Score 2)
+
+    private int Addition(){
+        return this.operand1+this.operand2;
+    }
+    private int subtraction(){
+        return this.operand1-this.operand2;
+    }
+    private int multiplication(){
+        return this.operand1*this.operand2;
+    }
+    private float division(){
+        return (float)this.operand1/(float)this.operand2;
+    }
+//    ii. Should be able to perform squareRoot, square, cube. (Score 1)
+
+    private double squareRoot(){
+        return Math.sqrt(this.operand1);
+    }
+    private long square(){
+        return this.operand1*this.operand1;
+    }
+    private long cube(){
+        return this.operand1*this.operand1*this.operand1;
+    }
+
+//    iii. Should be able to convert ‘Fahrenheit-Celsius’ , ‘Feet-Inches’. (Score 1)
+    public int convertFahToCel(){
+        return (this.operand1-32)*5/9;
+    }
+    public int convertFeetToInches(){
+        return this.operand1*12;
+    }
+
+//    The calculator should be able to solve a quadratic equation and return the solution as array.
+//    i. This function should take three arguments.
+//    ii. For example, if quadratic equation is Ax2 + Bx + C. The function should take A,B,C as arguments
+//    and return a solution as array.
+    public List<Integer> solveQuadratic(int a, int b, int c){
+        List<Integer> res=new ArrayList<Integer>();
+        if (b*b-4*a*c<0){
+            System.out.println("no answer for this quadratic equation");
+            return res;
+        }
+
+        if (b*b-4*a*c==0) {
+            res.add(-b / (2*a));
+            return res;
+        }
+        else {
+            res.add(-b + (int) Math.sqrt(b * b - 4 * a * c) / (2 * a));
+            res.add(-b - (int) Math.sqrt(b * b - 4 * a * c) / (2 * a));
+            return res;
+        }
+    }
+    public static void main(String[] args){
+        calculator ca2=new calculator(7,9);
+        calculator ca1=new calculator(3);
+        int par1, par2, par3;
+        par1=1;
+        par2=-2;
+        par3=1;
+        System.out.println("addition is : " + ca2.Addition());
+        System.out.println("subtraction is : " + ca2.subtraction());
+        System.out.println("multiplication is : " + ca2.multiplication());
+        System.out.println("division is : " + ca2.division());
+        System.out.println("squareRoot is : " + ca1.squareRoot());
+        System.out.println("square is : " + ca1.square());
+        System.out.println("cube is : " + ca1.cube());
+        System.out.println("addition is : " + ca2.convertFahToCel());
+        System.out.println("Fahrenheit"+ ca1.operand1+ "convert to celcius is : " + ca1.convertFahToCel());
+        System.out.println("Feet"+ ca1.operand1+ "convert to inches is : " + ca1.convertFahToCel());
+        System.out.println("solve quadratic: " +par1+"x^2 + (" +par2+ ") x + (" +par3 +"): answer is :"+ ca1.solveQuadratic(par1, par2, par3));
+
+
+    }
+
+
+}
