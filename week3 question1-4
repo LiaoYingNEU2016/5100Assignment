@@ -1,0 +1,101 @@
+package assignment;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.*;
+import java.util.Set;
+
+/**
+ * Created by lance1 on 24/09/2017.
+ */
+//2. find errors:
+// return type of getTime function doesn't match with declared function type.
+// return should be this.time instead of time.
+// setTime(): should be this.time instead of time.
+class Clock{
+    private String time;
+
+    private Clock(){
+        this.time="11:00am";
+    }
+    public String getTime(){
+        return this.time;
+    }
+    public void setTime(String t){
+        //should be this. time instead of time since time is an attribute of object.
+        this.time = t ;
+    }
+
+//    3. Write a Java function to remove vowels in a string. (Score 2)
+//        i. The function should take a string as input.
+//        ii. Should return the input string after omitting the vowels.
+
+
+    private String removeVowelsFromString(String input){
+        StringBuilder sb=new StringBuilder();
+        Set<Character> s=new HashSet<Character>();
+        s.add('a');
+        s.add('e');
+        s.add('i');
+        s.add('o');
+        s.add('u');
+
+        for (int i=0; i<input.length(); i++){
+            if (!s.contains(input.charAt(i)))
+                sb.append(input.charAt(i));
+        }
+
+        return sb.toString();
+    }
+
+//    4. Write a java function to check if two strings are Anagrams or not. (Score 2)
+//    i. The function should take two input strings.
+//            ii. Should return a boolean ‘true’ if the inputs are Anagrams else return ‘false’.
+
+    private boolean checkIfTwoStringsAreAnagrams(String s1, String s2){
+        //hashmap, for one string increase value of corresponding key, another decrease.. if all are 0, true. else..
+        if (s1.length()!=s2.length())
+            return false;
+        HashMap < Integer, Integer> map=new HashMap<>();
+        for (int i=0;i<s1.length();i++) {
+            if (map.containsKey(s1.charAt(i)-'0'))
+                map.put(s1.charAt(i)-'0',map.get(s1.charAt(i)-'0')+1);
+            else
+                map.put(s1.charAt(i)-'0',1);
+
+        }
+        for (int j=0;j<s2.length(); j++){
+            if (map.containsKey(s2.charAt(j)-'0'))
+                map.put(s2.charAt(j)-'0',map.get(s2.charAt(j)-'0')-1);
+            else
+                return false;
+        }
+        for (int k: map.keySet()){
+            if (map.get(k)!=0)
+                return false;
+        }
+
+        return true;
+
+    }
+    public static void main(String[] args){
+        Clock a=new Clock();
+        String s="adbkbgggfd";
+        String t="jjjdghjk";
+        String k="adbkbgdfgg";
+        String anag1="abc*&";
+        String anag2="cba&*";
+
+        String aa=" a";
+        String bb="a ";
+        System.out.println(a.checkIfTwoStringsAreAnagrams(s,t)); //false
+        System.out.println(a.checkIfTwoStringsAreAnagrams(s,k));  //true
+        System.out.println(a.checkIfTwoStringsAreAnagrams(aa,bb)); //true
+        System.out.println(a.checkIfTwoStringsAreAnagrams(anag1,anag2)); //true
+        System.out.println(a.removeVowelsFromString(s));
+    }
+
+}
+
+
+
