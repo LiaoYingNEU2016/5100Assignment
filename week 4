@@ -1,0 +1,384 @@
+//1. Now you are given a string S, which represents a software license key which we would like to format.
+//    The string is composed of alphanumerical characters and dashes. The dashes split the alphanumerical
+//    characters within the string into groups.(i.e If they are M dashes, the string is split into M+1 groups).
+//    The dashes in the given string are possibly misplaced.
+//    We want each group of characters to be of length K (except for possibly the first group, which could be
+//            shorter, but still must contain at least one character). To satisfy this requirement, we will reinsert
+//    dashes. Additionally, all the lower case letters in the string must be converted to upper case.
+//    So, you are given a non-empty string S, representing a license key to format, and an integer K. And
+//    you need to return the license key formatted according to the description above. (Score 2)
+
+//    Example 1:
+//    Input: S = “2-4A0r7-4k”, K = 4
+//    Output: “24A0-R74K”
+//    Explanation: The string S has been split into two parts, each part has 4 characters.
+//            Example 2:
+//    Input: S = “2-4A0r7-4k”, K = 3
+//    Output: “24-A0R-74K”
+//    Explanation: The string S has been split into three parts, each part has 3 characters, except the first
+//    part as it could be shorter as said above.
+//            Note:
+//    The length of string S will not exceed 12,000, and K is a positive integer. String S consists only of
+//    alphanumerical characters (a-z and/or A-Z and/or 0-9) and dashes(-).String S is non-empty.
+
+    public String LicenseKey(String s, int k){
+        StringBuffer sBuffer = new StringBuffer();
+        for (int i=0; i<s.length(); i++){
+            if (s.charAt(i)!='-'){
+                sBuffer.append(s.charAt(i));
+            }
+        }
+
+        int fir=sBuffer.length()%k;
+
+        StringBuffer res = new StringBuffer();
+
+        for (int j=0; j<fir; j++){
+            res.append(sBuffer.charAt(j));
+        }
+        if (fir!=0)
+            res.append('-');
+        for (int m=fir; m<sBuffer.length(); m++){
+
+            res.append(sBuffer.charAt(m));
+            if ((m-fir)%k==k-1 && m!=sBuffer.length()-1)
+                res.append('-');
+        }
+        return res.toString().toUpperCase();
+
+    }  // test ( main ) method is written at the end of the file together with question 5 and 6
+
+//2, Implement a class called Tool. It should have an int field called strength and a char field called type.
+//        You may make them either private or protected. The Tool class should also contain the function void
+//setStrength(int), which sets the strength for the Tool.
+//        Create 3 more classes called Rock, Paper, and Scissors, which inherit from Tool. Each of these
+//        classes will need a constructor which will take in an int that is used to initialise the strength field. The
+//        constructor should also initialise the type field using ‘r’ for Rock, ‘p’ for Paper, and ’s' for Scissors.
+
+//        These classes will also need a public function bool fight(Tool) that compares their strengths in the
+//        following way:
+
+//        Rock’s strength is doubled (temporarily) when fighting scissors, but halved (temporarily) when fighting
+//        paper.
+
+// In the same way, paper has the advantage against rock, and scissors against paper.
+// The
+//        strength field shouldn’t change in the function, which returns true if the original class wins in strength
+//        and false otherwise.
+
+// You may also include any extra auxiliary functions and/or fields in any of these
+//        classes.
+// Run the program without changing the main function, and verify that the results are correct.
+//        (Score 2)
+/**
+ * Created by lance1 on 03/10/2017.
+ */
+ 
+public class Tool{
+    protected int strength;
+    protected char type;
+
+    protected void setStrength(int s){
+        this.strength=s;
+    }
+
+}
+
+public class Scissors extends Tool {
+    Scissors(int n){
+        this.strength=n;
+        this.type='s';
+    }
+    public boolean fight(Paper a){
+        return (this.strength*2>a.strength);
+    }
+    public boolean fight(Rock a){
+        return (this.strength>a.strength*2);
+    }
+
+
+}
+
+public class Rock extends Tool {
+    Rock(int n){
+        this.strength=n;
+        this.type='r';
+    }
+    public boolean fight(Paper a){
+        return (this.strength>a.strength*2);
+
+    }
+    public boolean fight(Scissors a){
+        return (this.strength*2>a.strength);
+
+    }
+}
+public class Paper extends Tool {
+    Paper(int n){
+        this.strength=n;
+        this.type='p';
+    }
+    public boolean fight(Scissors a){
+        return (this.strength>a.strength*2);
+
+    }
+    public boolean fight(Rock a){
+        return (this.strength*2>a.strength);
+    }
+}
+
+public class RockPaperScissorsGame extends Tool{
+
+    public static void main(String args[]){
+        Scissors s = new Scissors(5);
+        Paper p = new Paper(7);
+        Rock r = new Rock(15);
+        System.out.println(s.fight(p) + " , "+ p.fight(s) );
+        System.out.println(p.fight(r) + " , "+ r.fight(p) );
+        System.out.println(r.fight(s) + " , "+ s.fight(r) );
+    }
+}
+
+//3, ip address
+//        Instance variables:
+//        dottedDecimal – a dotted-decimal string. Example value: “216.27.6.136” firstOctet, secondOctet,
+//        thirdOctet, fourthOctet – four int variables that store the octets for an IP address
+
+//        Constructor:
+//        This constructor receives one parameter, a dotted-decimal string. You may assume that the
+//        parameter’s value is valid (i.e., no error checking required). The constructor initialises the instance
+//        variables with appropriate values. There are many ways to solve the problem of extracting octets from
+//        the given dotted-decimal string. We recommend that you use String methods to extract the individual
+//        octets as strings, and then use parseInt method calls to convert the octet strings to ints.
+
+//        getDottedDecimal method:
+//        This is a standard accessor method that simply returns the dottedDecimal instance variable’s value.
+
+//        getOctet method:
+//        This method receives the position of one of the octets (1, 2, 3, or 4) and returns the octet that’s at that
+//        position.
+
+//        Provide a driver class that tests your IpAddress class. Your driver class should contain this main
+//        method: (Score 2)
+
+public class IpAddress {
+    protected String dottedDecimal;
+
+    private IpAddress(String ip){
+        this.dottedDecimal=ip;
+    }
+    private String getDottedDecimal(){
+        return this.dottedDecimal;
+    }
+
+    private String getOctet(int n){
+        String ip=this.dottedDecimal;
+        String[] res=new String[4];
+        int i=0, j=0, strt=0;
+        while (i<ip.length()){
+            if (ip.charAt(i)=='.'){
+                res[j]=ip.substring(strt, i);
+                strt=i+1;
+                j++;
+            }
+            i++;
+        }
+        res[3]=ip.substring(strt, ip.length());
+        return res[n-1];
+    }
+    public static void main(String args[]){
+        IpAddress ip = new IpAddress("216.27.6.136");
+        System.out.println(ip.getDottedDecimal());
+        System.out.println(ip.getOctet(4));
+        System.out.println(ip.getOctet(1));
+        System.out.println(ip.getOctet(3));
+        System.out.println(ip.getOctet(2));
+    }
+
+}
+
+//Design a simple registration system that allows Student to register in a course using 2 classes:
+// class Student & class Course. Implement the scenarios in class Test’s main method.
+
+//        Each student has a name and an id variables.
+// Each object of class Student is initialised using values of name and id passed to constructor.
+// Class Student has accessor methods for its instance variables
+
+//        Each Course has a name, and a variable numberOfStudent representing the number of registered
+//        students.
+
+// A course can have a maximum number of 10 students registered in it.
+// Class Course store
+//        the registered students in students which is an array of type Student.
+
+
+//        (Score 2)
+
+public class registrationSystem {
+
+
+    public static void main(String [] args){
+        Student a=new Student(1, "Terry");
+        Student b=new Student(2, "John");
+        Student c=new Student(3, "Patrik");
+        Student d=new Student(4, "Miller");
+        Student e=new Student(5, "Annie");
+        Student f=new Student(6, "Carrie");
+        Student g=new Student(7, "Cynthia");
+        Student h=new Student(8, "Kate");
+        Student i=new Student(9, "Matthew");
+        Student j=new Student(10, "Linda");
+
+        Course crs=new Course("Java");
+        crs.registerStudent(a);
+        crs.registerStudent(b);
+        crs.registerStudent(c);
+        crs.registerStudent(d);
+        crs.registerStudent(e);
+        System.out.println(crs.isFull());
+
+        crs.registerStudent(f);
+        crs.registerStudent(g);
+        crs.registerStudent(h);
+        System.out.println(crs.isFull());
+
+        crs.registerStudent(i);
+        System.out.println(crs.isFull());
+        crs.registerStudent(j);
+        System.out.println(crs.isFull()); //full
+
+        System.out.println(crs.getNumberOfStudent());
+        System.out.println(crs.getTitle());
+
+        //print all stuents
+        for (int k=0;k<crs.numberOfStudent; k++){
+            System.out.println(crs.getStudents()[k].getId()+" "+ crs.getStudents()[k].getName());
+
+        }
+
+    }
+
+}
+
+
+public class Student {
+    int id;
+    String name;
+
+    Student(int id, String name){
+        this.id=id;
+        this.name=name;
+    }
+    public int getId(){
+        return this.id;
+    }
+    protected String getName(){
+        return this.name;
+    }
+}
+
+public class Course {
+    private String name;
+    int numberOfStudent=0; //max: 10
+    Student[] students=new Student[10];
+
+    //init, constructor
+    Course(String name){
+        this.name=name;
+    }
+
+    protected Student[] getStudents(){
+
+        return this.students;
+    }
+
+    protected boolean isFull(){
+
+        return this.numberOfStudent==10;
+    }
+
+    protected void registerStudent(Student s){
+        if (!this.isFull()){
+            this.students[this.numberOfStudent]=s;
+
+            this.numberOfStudent++;
+        }
+        else{
+            System.out.println("can't register, course is full");
+            return;
+        }
+    }
+    protected String getTitle(){
+        return this.name;
+    }
+    protected int getNumberOfStudent(){
+        return this.numberOfStudent;
+    }
+
+}
+
+//    5. Given an integer, convert it to a roman numeral. Input is guaranteed to be within the range from 1 to
+//3999. (Score 2)
+
+    public String intToRoman(int num) {
+        String[] M={"", "M", "MM", "MMM"};
+        String[] C = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+        String[] X = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+        String[] I = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+        return M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10];
+    }
+
+//    Extra credit
+//    There are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the
+//        two sorted arrays. (Score 2)
+
+//        Example 1:
+//        nums1 = [1, 3]
+//        nums2 = [2]
+//        The median is 2.0
+
+//        Example 2:
+//        nums1 = [1, 2]
+//        nums2 = [3, 4]
+//        The median is (2 + 3)/2 = 2.5
+
+    public float findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int l=nums1.length+nums2.length;
+        int[] arr=new int[l];
+        int i=0, j=0;
+        for (int ind=0;ind<l; ind++){
+            if (j==nums2.length || (i<nums1.length && nums1[i]<nums2[j])) {
+                arr[ind] = nums1[i];
+                i++;
+            }
+            else {
+                arr[ind] = nums2[j];
+                j++;
+            }
+        }
+
+
+        if ((nums1.length+nums2.length)%2==1)
+            return arr[(int)(nums1.length+nums2.length)/2];
+        else
+            return (float)(arr[(nums1.length+nums2.length)/2]+arr[(nums1.length+nums2.length)/2-1])/2;
+
+    }
+// one main (test)  method  for question 1, 5 and 6
+    public static void main(String[] args){
+        assignment4 assignment=new assignment4();
+        int[] nums1 = {1, 3};
+        int[] nums2 = {2};
+        int[] nums3 = {1, 2};
+        int[] nums4 = {3, 4};
+        int[] nums5={4,5,6,9,10};
+
+        System.out.println(assignment.intToRoman(100));
+        System.out.println(assignment.intToRoman(9));
+        System.out.println(assignment.intToRoman(983));
+        System.out.println(assignment.findMedianSortedArrays(nums1, nums2)); //2.0
+        System.out.println(assignment.findMedianSortedArrays(nums3, nums4)); //2.5
+        System.out.println(assignment.findMedianSortedArrays(nums3, nums5)); //5.0
+    }
+}
+
