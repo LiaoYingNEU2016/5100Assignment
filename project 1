@@ -1,0 +1,259 @@
+package project1;
+
+import java.lang.*;
+import java.util.ArrayList;
+
+//Design a Hangman Game that is played by a user.
+//        When the user plays Hangman, the computer first selects a secret word at random from a list built into the
+//        program.
+//
+// The program then prints out a row of dashes—one for each letter in the secret word—and asks
+//        the user to guess a letter. If the user guesses a letter that is in the word, the word is redisplayed with all
+//        instances of that letter shown in the correct positions, along with any letters correctly guessed on previous
+//        turns. If the letter does not appear in the word, the user is charged with an incorrect guess. The user keeps
+//        guessing letters until either (1) the user has correctly guessed all the letters in the word or (2) the user has
+//        made eight incorrect guesses.
+//        Hangman comes from the fact that incorrect guesses are recorded by drawing an evolving picture of the
+//        user being hanged at a scaffold. For each incorrect guess, a new part of a stick-figure body—first the head,
+//        then the body, then each arm, each leg, and finally each foot—is added to the scaffold until the hanging is
+//        complete. The hanging should follow this sequence: head, body, left arm, right arm, left leg, right leg, left
+//        foot, right foot.
+//        Here is the sample picture of the hangman.
+//        ___________
+//        | |
+//        | O
+//        | |
+//        | --- ---
+//        | / \
+//        | / \
+//        | -- --
+//        |_________________ picture is not to scale
+
+//NOTE:
+//        * Intial step is to welcome the user for game.
+//        * display the secret word with dashes.
+//        * ask the user to guess a letter.
+//        * update the word, display previously guessed letters, remaining guesses and hangman.
+//        * Try to clear the console and display the games after every move if possible.
+//        * Exit the console after finishing the game.
+
+/**
+ * Created by lance1 on 05/10/2017.
+ */
+import java.util.HashSet;
+import java.util.*;
+import java.io.*;
+
+public class Hangman {
+    ArrayList<String> words=new ArrayList<String>();
+    int wrongGuess;
+    HashSet<Character> correctList;
+    String chosenWord;
+    String guessWord;
+
+
+
+    Hangman(ArrayList<String> words) {
+        this.words=words;
+        this.wrongGuess=0;
+        this.correctList=new HashSet<>();
+        this.chosenWord="";
+        this.guessWord="";
+    } //- Initialises the words list.
+
+    public void playGame() {
+        System.out.println("welcome to play Hangman!~");
+
+    }//- Starts the game.
+
+    public String chooseWord() {
+        this.chosenWord=this.words.get((int)(Math.random()*this.words.size()));
+        System.out.println("the secret word is " );
+        StringBuilder s=new StringBuilder();
+        for (int j=0;j<this.chosenWord.length();j++)
+            s.append("- ");
+        System.out.println(s.toString());
+        return this.chosenWord;
+
+    }//- Randomly chooses a word from the list.
+
+    public boolean handleGuess() throws IOException{
+        System.out.print("Please input your guess letter: ");
+//        char input=(char) System.in.read();
+        Scanner scan = new Scanner(System.in);
+        String input=scan.next();
+
+
+        if (!this.chosenWord.contains(input)) {
+            this.wrongGuess++;
+            return false;
+        }
+        else{
+            this.correctList.add(input.toCharArray()[0]);
+            return true;
+        }
+
+    }//- handle the guess and add the letter to correctList or WrongList.
+
+    public void displayWord() {
+        StringBuilder temp=new StringBuilder();
+        for (int i=0;i<this.chosenWord.length();i++){
+            if (this.correctList.contains(this.chosenWord.charAt(i)))
+                temp.append(this.chosenWord.charAt(i));
+            else
+                temp.append('-');
+        }
+        this.guessWord=temp.toString();
+        System.out.println("Your guess word now is : "+this.guessWord);
+    }//- display the correctly guessed letters and hide the remaining with dashes.
+
+    public void printHangman(int a) {
+        System.out.println("the hangman now looks like: ");
+        if (a==0) {
+            System.out.println("_______________");
+            System.out.println("|           |");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|________________");
+        }
+        if (a==1){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|________________");
+
+
+        }
+        if (a==2){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          |");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|________________");
+
+        }
+        if (a==3){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          |");
+            System.out.println("|       --- ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|________________");
+
+        }
+        if (a==4){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          |");
+            System.out.println("|      ---   ---");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|          ");
+            System.out.println("|________________");
+
+        }
+        if (a==5){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          |");
+            System.out.println("|      ---   ---");
+            System.out.println("|         / ");
+            System.out.println("|        / ");
+            System.out.println("|          ");
+            System.out.println("|________________");
+
+        }
+        if (a==6){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          |");
+            System.out.println("|      ---   ---");
+            System.out.println("|         / \\");
+            System.out.println("|        /   \\");
+            System.out.println("|          ");
+            System.out.println("|________________");
+
+        }
+        if (a==7){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          |");
+            System.out.println("|      ---   ---");
+            System.out.println("|         / \\");
+            System.out.println("|        /   \\");
+            System.out.println("|     -- ");
+            System.out.println("|________________");
+
+        }
+        if (a==8){
+            System.out.println("_______________");
+            System.out.println("|          |");
+            System.out.println("|          O");
+            System.out.println("|          |");
+            System.out.println("|      ---   ---");
+            System.out.println("|         / \\");
+            System.out.println("|        /   \\");
+            System.out.println("|     --       --");
+            System.out.println("|________________");
+        }
+
+
+    }//- print hangman after every guess.
+
+    public boolean gameWon() {
+        if (this.guessWord.equals(this.chosenWord))
+            return true;
+        else
+            return false;
+
+    }// - return true if user wins the game.
+
+    public void gameOver() {
+        if (this.gameWon() || this.wrongGuess==8){
+            if (this.gameWon())
+                System.out.println("You won the game, game over");
+            else
+                System.out.println("You lose the game, game over");
+            return ;
+        }
+
+    }//- exit the program after the game is over.
+
+
+    public static void main(String [] args) throws IOException {
+        ArrayList<String> w=new ArrayList<String>();
+        w.add("word");
+        w.add("hello");
+        w.add( "aerospace");
+        w.add( "java");
+        Hangman h=new Hangman(w);
+        h.playGame();
+        h.chooseWord();
+        while (h.wrongGuess < 8 && !h.gameWon()){
+            h.handleGuess();
+            h.displayWord();
+            h.printHangman(h.wrongGuess);
+        }
+        h.gameOver();
+    }
+}
