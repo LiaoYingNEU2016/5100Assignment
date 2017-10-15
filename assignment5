@@ -1,0 +1,340 @@
+package assignment5;
+import java.util.Vector;
+
+/**
+ * Created by lance1 on 11/10/2017.
+ */
+//The DessertItem class is an abstract superclass from which specific types of DessertItems can
+// be derived. It contains only one data member, a name. It also defines a number of methods.
+// All of the DessertItem class methods except the getCost() method are defined in a generic way in
+// the file Class-DessertItem, provided for you along with the other homework specific files in the
+// directory. The getCost() method is an abstract method that is not defined in the DessertItem class
+// because the method of determining the costs varies based on the type of item. Tax amounts should be r
+// ounded to the nearest cent. For example, the calculating the tax on a food item with a cost of 199
+// cents with a tax rate of 2.0% should be 4 cents. The complete specifications for the DessertItem class
+// are provided in the file Class-DessertItem.
+
+abstract class DessertItem {
+    String name;
+
+    abstract int getCost();
+    DessertItem(){}
+}
+
+
+public class DessertShoppe {
+     public static final double TAX=0.065;
+     public static String STORE_NAME="M & M Dessert Shoppe";
+     public static int MAX_ITEM_LEN=22; //the maximum size of an item name
+     public static int WIDTH=30; // the width used to display the costs of the items on the receipt.
+
+     public static String cents2dollarsAndCents(int cent ){
+         StringBuilder res=new StringBuilder();
+
+         int dollars=cent/100;
+         if (dollars!=0)
+             res.append(String.valueOf(dollars));
+         res.append(".");
+
+         cent%=100;
+         if (cent<10)
+             res.append('0');
+         res.append(String.valueOf(cent));
+
+         return res.toString();
+
+     }
+//make sure there are 2 digits after .
+     public static String numberFormat(double f){
+         StringBuilder res=new StringBuilder();
+         int i=(int)f;
+         res.append(i+".");
+         int remain=(int)((f-i)*100);
+         if (remain!=0)
+             res.append(remain);
+         else
+             res.append("00");
+         return res.toString();
+     }
+}
+
+
+public class Candy extends DessertItem{
+    public double weight;
+    public int pricePerPound; //which are used to determine its cost.
+
+    Candy(String name, double weight, int pricePerPound){
+        this.name=name;
+        this.pricePerPound=pricePerPound;
+        this.weight=weight;
+
+    }
+
+    public int getCost(){
+        int a=(int)(this.weight*this.pricePerPound);
+        double b=this.weight*this.pricePerPound;
+        if (b-a>=0.5)
+            return a+1;
+        return a;
+    }
+
+    public String toString(){
+
+        StringBuilder res=new StringBuilder();
+        res.append(this.name);
+
+        int lineLen=DessertShoppe.WIDTH-this.name.length();
+        for(int i = 0; i<lineLen ;i++) {
+            res.append(" ");
+        }
+        res.append(DessertShoppe.cents2dollarsAndCents(this.getCost()));
+
+        return DessertShoppe.numberFormat(this.weight)+" lbs. @ "+DessertShoppe.cents2dollarsAndCents(pricePerPound)+" /lb."+"\n"+res.toString();
+
+        }
+    }
+    
+    public class Cookie extends DessertItem{
+    int number;
+    int centsPerDozen;
+
+    Cookie(String name, int number, int centsPerDozen){
+        this.name=name;
+        this.number=number;
+        this.centsPerDozen=centsPerDozen;
+
+    }
+    public int getCost(){
+        return this.number*this.centsPerDozen/12;
+    }
+
+    public String toString(){
+
+        StringBuilder res=new StringBuilder();
+        res.append(this.name);
+
+        int lineLen=DessertShoppe.WIDTH-this.name.length();
+        for(int i = 0; i<lineLen ;i++) {
+            res.append(" ");
+        }
+        res.append(DessertShoppe.cents2dollarsAndCents(this.getCost()));
+
+        return this.number+" @ "+DessertShoppe.cents2dollarsAndCents(centsPerDozen)+" /dz."+"\n"+res.toString();
+
+
+    }
+}
+
+public class IceCream extends DessertItem{
+    int cost;
+
+    IceCream(){
+
+    }
+    IceCream(String name, int cost){
+        this.name=name;
+        this.cost=cost;
+    }
+
+    public int getCost(){
+        return this.cost;
+    }
+
+    public String toString(){
+
+        //Vanilla Ice Cream         	1.05
+        StringBuilder res=new StringBuilder();
+        res.append(this.name);
+
+        int lineLen=DessertShoppe.WIDTH-this.name.length();
+        for(int i = 0; i<lineLen ;i++) {
+            res.append(" ");
+        }
+        res.append(DessertShoppe.cents2dollarsAndCents(this.getCost()));
+
+        return res.toString();
+
+    }
+}
+
+
+public class Sundae extends IceCream{
+    int toppingPrice;
+    String toppingName;
+
+    Sundae(String name, int cost, String toppingName, int toppingPrice){
+        this.name=name;
+        this.cost=cost;
+        this.toppingName=toppingName;
+        this.toppingPrice=toppingPrice;
+    }
+
+    public int getCost(){
+        return this.cost+this.toppingPrice;
+    }
+
+    public String toString(){
+
+//        Caramel Sundae with
+//        Vanilla Ice	Cream		1.55
+        StringBuilder res=new StringBuilder();
+        res.append(this.toppingName+"Sundae with"+"\n");
+        res.append(this.name);
+
+        int lineLen=DessertShoppe.WIDTH-this.name.length();
+        for(int i = 0; i<lineLen ;i++) {
+            res.append(" ");
+        }
+        res.append(DessertShoppe.cents2dollarsAndCents(this.getCost()));
+
+        return res.toString();
+
+    }
+}
+
+
+
+public class Checkout extends DessertShoppe {
+
+    Vector<DessertItem> dessertItems;
+
+    Checkout(){
+        this.dessertItems=new Vector<>();
+    }
+
+    public void enterItem(DessertItem d){
+        this.dessertItems.addElement(d);
+    }
+
+    public int numberOfItems(){
+        return this.dessertItems.size();
+
+    }
+    public int totalCost(){
+        int res=0;
+        for (int i=0;i<this.dessertItems.size();i++){
+            res+=this.dessertItems.elementAt(i).getCost();
+        }
+        return res;
+
+    }
+    public int totalTax(){
+        int res=0;
+        for (int i=0;i<this.dessertItems.size();i++){
+             double temp=this.dessertItems.elementAt(i).getCost()*TAX;
+             int temp2=(int) (this.dessertItems.elementAt(i).getCost()*TAX);
+             if (temp-temp2>0.5)
+                 res+=temp2+1;
+             else
+                 res+=temp2;
+        }
+        return res;
+
+    }
+
+    public String toString(){
+        StringBuilder res=new StringBuilder();
+        res.append("       M & M Dessert Shoppe  " +"\n");
+        res.append("       --------------------  "+"\n");
+        res.append("                          "+"\n");
+        for (int i =0; i<dessertItems.size(); i++){
+            res.append(dessertItems.elementAt(i).toString()+"\n");
+        }
+        res.append("                                 "+"\n");
+        res.append("Tax                            ");
+        res.append(cents2dollarsAndCents(this.totalTax())+"\n");
+        res.append("Total Cost                   ");
+        res.append(cents2dollarsAndCents(this.totalCost()+this.totalTax())+"\n");
+
+        return res.toString();
+    }
+
+
+    public void clear(){
+        dessertItems.clear();
+    }
+}
+
+
+public class TestCheckOut {
+
+    public static void main(String[] args) {
+
+        Checkout checkout = new Checkout();
+
+        checkout.enterItem(new Candy("Peanut Butter Fudge", 2.25, 399));
+        checkout.enterItem(new IceCream("Vanilla Ice Cream", 105));
+        checkout.enterItem(new Sundae("Choc. Chip Ice Cream", 145, "Hot Fudge", 50));
+        checkout.enterItem(new Cookie("Oatmeal Raisin Cookies", 4, 399));
+
+        System.out.println("\nNumber of items: " + checkout.numberOfItems() + "\n");
+        System.out.println("\nTotal cost: " + checkout.totalCost() + "\n");
+        System.out.println("\nTotal tax: " + checkout.totalTax() + "\n");
+        System.out.println("\nCost + Tax: " + (checkout.totalCost() + checkout.totalTax()) + "\n");
+        System.out.println(checkout);
+
+        checkout.clear();
+
+        checkout.enterItem(new IceCream("Strawberry Ice Cream", 145));
+        checkout.enterItem(new Sundae("Vanilla Ice Cream", 105, "Caramel", 50));
+        checkout.enterItem(new Candy("Gummy Worms", 1.33, 89));
+        checkout.enterItem(new Cookie("Chocolate Chip Cookies", 4, 399));
+        checkout.enterItem(new Candy("Salt Water Taffy", 1.5, 209));
+        checkout.enterItem(new Candy("Candy Corn", 3.0, 109));
+
+        System.out.println("\nNumber of items: " + checkout.numberOfItems() + "\n");
+        System.out.println("\nTotal cost: " + checkout.totalCost() + "\n");
+        System.out.println("\nTotal tax: " + checkout.totalTax() + "\n");
+        System.out.println("\nCost + Tax: " + (checkout.totalCost() + checkout.totalTax()) + "\n");
+        System.out.println(checkout);
+    }
+}
+
+
+//extra credit
+//Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order. (Score 2)
+//  For example, Given the following matrix:
+//  {{1,2,3},
+//  {4,5,6},
+// {7,8,9}}
+//    You should return {1,2,3,6,9,8,7,4,5}.
+
+    public List<Integer> spiralOrder(int[][] matrix) {
+
+        List<Integer> res= new ArrayList<>();
+        if (matrix.length==0 | matrix[0].length==0)
+            return res;
+        int rowS=0; //row start index
+        int rowE=matrix.length-1; //row end index
+        int colS=0; //column start index
+        int colE=matrix[0].length-1; //column end index
+
+        while (rowS<=rowE && colS<=colE){
+            //go right
+            if (rowS<=rowE){
+                for (int i=colS; i<colE+1; i++)
+                    res.add(matrix[rowS][i]);
+                rowS++;
+            }
+            // go down
+            if (colS<=colE){
+                for (int i=rowS; i<rowE+1; i++)
+                    res.add(matrix[i][colE]);
+                colE-=1;
+            }
+            //go left
+            if (rowS<=rowE) {
+                for (int i=colE; i>colS-1; i--)
+                    res.add(matrix[rowE][i]);
+                rowE -= 1;
+            }
+            //go up
+            if (colS<=colE) {
+                for (int i=rowE; i>rowS-1; i--)
+                    res.add(matrix[i][colS]);
+                colS += 1;
+            }
+        }
+        return res;
+    }
+    
