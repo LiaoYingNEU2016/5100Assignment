@@ -15,6 +15,8 @@ import java.util.Set;
 class Clock{
     private String time;
 
+    // What's the intention of the private constructor which set time to 11am ? 
+    // Since a default (no-argument) constructor is automatically created if you did not define one
     private Clock(){
         this.time="11:00am";
     }
@@ -23,6 +25,7 @@ class Clock{
     }
     public void setTime(String t){
         //should be this. time instead of time since time is an attribute of object.
+        // It's not mandatory to add this, if variable name is different from param name as in the case t/time
         this.time = t ;
     }
 
@@ -58,6 +61,8 @@ class Clock{
             return false;
         HashMap < Integer, Integer> map=new HashMap<>();
         for (int i=0;i<s1.length();i++) {
+            // What's the intention for "- '0'" ? 
+            // Make sure you understand the diff between using int[] and using HashMap
             if (map.containsKey(s1.charAt(i)-'0'))
                 map.put(s1.charAt(i)-'0',map.get(s1.charAt(i)-'0')+1);
             else
@@ -65,6 +70,7 @@ class Clock{
 
         }
         for (int j=0;j<s2.length(); j++){
+            // You can combine the last for loop into this one, something like if (map.containsKey(s2.charAt(j)-'0') && map.get(s2.charAt(j)-'0') > 0)
             if (map.containsKey(s2.charAt(j)-'0'))
                 map.put(s2.charAt(j)-'0',map.get(s2.charAt(j)-'0')-1);
             else
