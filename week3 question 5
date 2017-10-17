@@ -20,8 +20,12 @@ import java.util.List;
 public class calculator {
     int operand1;
     int operand2;
+    // Plese delete this line if you comment it
 //    String operator;
 
+    // Think about this case, you have to calculate 1 + 2, 2 + 3, 3 + 4
+    // How many Calculator will you create? In the real world, you only need one calculator
+    // So it's better to have a default constructor and pass params from method
     private calculator(int a, int b){
         this.operand1=a;
         this.operand2=b;
@@ -34,6 +38,7 @@ public class calculator {
 
 //    i. The calculator should be able to perform Addition, subtraction, multiplication, division. (Score 2)
 
+    // How to handle 1.1 + 2.2?
     private int Addition(){
         return this.operand1+this.operand2;
     }
@@ -59,6 +64,7 @@ public class calculator {
     }
 
 //    iii. Should be able to convert ‘Fahrenheit-Celsius’ , ‘Feet-Inches’. (Score 1)
+    // Since this method involving division, why you return int here but return float in division method?
     public int convertFahToCel(){
         return (this.operand1-32)*5/9;
     }
@@ -82,6 +88,7 @@ public class calculator {
             return res;
         }
         else {
+            // Consider test case when a == 0
             res.add(-b + (int) Math.sqrt(b * b - 4 * a * c) / (2 * a));
             res.add(-b - (int) Math.sqrt(b * b - 4 * a * c) / (2 * a));
             return res;
